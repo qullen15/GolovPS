@@ -1,20 +1,25 @@
 import os
 import socket
 
+
+def parse_command(line):
+    parts = line.split()
+    if not parts:
+        return None, []
+    return parts[0], parts[1:]
+
+
 def main():
-    username = os.getlogin()
+    username = os.environ.get("USER") or os.environ.get("USERNAME")
     hostname = socket.gethostname()
 
     while True:
         prompt = f"{username}@{hostname}:~$ "
         user_input = input(prompt)
 
-        parts = user_input.split()
-        if not parts:
+        command, args = parse_command(user_input)
+        if command is None:
             continue
-
-        command = parts[0]
-        args = parts[1:]
 
         if command == "exit":
             break
@@ -25,4 +30,6 @@ def main():
         else:
             print(f"{command}: команда не найдена")
 
-main()
+
+if __name__ == "__main__":
+    main()
