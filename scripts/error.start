@@ -1,0 +1,4 @@
+ls -l
+ping pong
+cd docs
+exit
